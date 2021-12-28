@@ -32,6 +32,7 @@ function App() {
         click{" "}
       </button>{" "}
       <p>{counter}</p>
+      <p>Hello World</p>
     </div>
   );
 }
