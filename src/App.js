@@ -3,6 +3,7 @@ import "./App.css";
 import MovieList from "./components/MovieList";
 import axios from "axios";
 import { data } from "autoprefixer";
+import NavBar from "./components/NavBar";
 function App() {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
@@ -14,10 +15,16 @@ function App() {
         setMovies(res.data.results);
       });
   }, []);
-  console.log(movies);
+
+  const showSearchResults = (movies) => {
+    setMovies(movies);
+  };
+
   return (
     <div className="App">
-      <MovieList movies={movies}  />
+      <NavBar passToApp={showSearchResults} />
+
+      <MovieList movies={movies} />
     </div>
   );
 }
