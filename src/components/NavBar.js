@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 const NavBar = (props) => {
-  const API =
-    "https://api.themoviedb.org/3/search/movie?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1&include_adult=false&query=";
   const [search, setSearch] = useState("");
-  
-  const [movies, setMovies] = useState([]);  
+  const [movies, setMovies] = useState([]);
+
+  const fetchSearch = () => {
+    axios.get(props.searchAPI, { params: { query: search } }).then((res) => {
+      setMovies(res.data.results);
+    });
+  };
+
   const searchHandler = (event) => {
     event.preventDefault();
     if (search.trim() !== "") {
-      axios.get(API + search).then((res) => {
-        setMovies(res.data.results);
-      });
-      console.log(movies);
-      props.passToApp(movies);
+      fetchSearch();
+      props.renderSearchResults(movies);
     }
   };
 
