@@ -3,21 +3,34 @@ import "./App.css";
 import MovieList from "./components/MovieList";
 import axios from "axios";
 import { data } from "autoprefixer";
+import NavBar from "./components/NavBar";
+
+const searchAPI =
+  "https://api.themoviedb.org/3/search/movie?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1&include_adult=false&query=";
+const nowPlayingAPI =
+  "https://api.themoviedb.org/3/movie/now_playing?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1";
+
 function App() {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     axios
       .get(
-        "https://api.themoviedb.org/3/movie/now_playing?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1"
+        nowPlayingAPI
       )
       .then((res) => {
         setMovies(res.data.results);
       });
   }, []);
-  console.log(movies);
+
+  const renderSearchResults = (movies) => {
+    setMovies(movies);
+  };
+
   return (
     <div className="App">
-      <MovieList movies={movies}  />
+      <NavBar searchAPI = {searchAPI} renderSearchResults={renderSearchResults} />
+
+      <MovieList movies={movies} />
     </div>
   );
 }
