@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import MovieList from "./components/MovieList";
+import MovieDetails from "./components/MovieDetails";
 import axios from "axios";
 import { data } from "autoprefixer";
 import NavBar from "./components/NavBar";
 import Search from "./components/Search";
+import { Route, Switch } from "react-router-dom";
 
 const NOWPLAYING_API =
   "https://api.themoviedb.org/3/movie/now_playing?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1";
@@ -27,9 +29,9 @@ function App() {
       setMovies(res.data.results);
     });
   };
-
   return (
-    <div className="App">
+    <Switch>
+      <div className="App">
       <NavBar>
         <Search
           onChangeQuery={setSearch}
@@ -37,9 +39,14 @@ function App() {
           onSearch={fetchSearch}
         />
       </NavBar>
-
-      <MovieList movies={movies} />
-    </div>
+        <Route path="/" exact>
+          <MovieList movies={movies} />
+        </Route>
+        <Route path="/movies/:movieID">
+          <MovieDetails />
+        </Route>
+      </div>
+    </Switch>
   );
 }
 
