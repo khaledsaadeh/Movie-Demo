@@ -14,6 +14,7 @@ const MovieDetails = (props) => {
         `https://api.themoviedb.org/3/movie/${params.movieID}?api_key=4f298a53e552283bee957836a529baec&language=en-US`
       )
       .then((res) => {
+        
         setMovieDetails(res.data);
         setGenres(res.data.genres);
       });
@@ -25,6 +26,7 @@ const MovieDetails = (props) => {
         `https://api.themoviedb.org/3/movie/${params.movieID}/credits?api_key=4f298a53e552283bee957836a529baec&language=en-US`
       )
       .then((res) => {
+        console.log(res.data);
         setCastDetails(res.data.cast);
       });
   };
@@ -36,7 +38,7 @@ const MovieDetails = (props) => {
 
   return (
     <div>
-      <div className="flex px-6 py-10  shadow-xl rounded bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600">
+      <div className="continer flex px-6 py-10 shadow-xl rounded bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600">
         <div className="w-72 h-100 rounded  shadow-lg m-4">
           <img
             className="w-full h-92"
@@ -48,9 +50,7 @@ const MovieDetails = (props) => {
         <div className="text-justify pl-2">
           <h1 className="font-extrabold pt-8 text-xl">
             <span>{movieDetails.title}</span>{" "}
-            <span className="italic font-light">
-              ({movieDetails.original_language})
-            </span>
+            <span className="italic font-light">({movieDetails.original_language})</span>
           </h1>
 
           <div className="flex">
