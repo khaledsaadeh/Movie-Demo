@@ -26,7 +26,6 @@ const MovieDetails = (props) => {
         `https://api.themoviedb.org/3/movie/${params.movieID}/credits?api_key=4f298a53e552283bee957836a529baec&language=en-US`
       )
       .then((res) => {
-        console.log(res.data);
         setCastDetails(res.data.cast);
       });
   };
@@ -85,7 +84,7 @@ const MovieDetails = (props) => {
       <h1 class="font-bold text-4xl text-gray-800">Cast:</h1>
       <div className="flex overflow-x-auto space-x-8 ">
         {castDetails.map((castMember) => (
-          <div className="flex-shrink-0 shadow-xl m-2 w-32 h-56 max-w-xs overflow-hidden rounded-lg transform transition hover:scale-105">
+          <div className="info-card">
             <img
               className="w-full h-44"
               src={`https://image.tmdb.org/t/p/w1280${castMember.profile_path}`}
