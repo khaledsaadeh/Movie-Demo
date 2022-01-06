@@ -32,9 +32,9 @@ function App() {
     <div className="App">
       <NavBar>
         <Search
-          setSearch={setSearch}
-          search={search}
-          fetchSearch={fetchSearch}
+          onChangeQuery={setSearch}
+          query={search}
+          onSearch={fetchSearch}
         />
       </NavBar>
 
