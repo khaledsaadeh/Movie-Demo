@@ -15,7 +15,7 @@ const Search = (props) => {
       />
 
       <button
-        className="items-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
+        className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
         type="submit"
       >
         Search
