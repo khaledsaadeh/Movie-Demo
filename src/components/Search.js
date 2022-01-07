@@ -1,3 +1,4 @@
+import { Link, useParams } from "react-router-dom";
 const Search = (props) => {
   const setSearchHandler = (event) => {
     props.onChangeQuery(event.target.value);
@@ -12,8 +13,9 @@ const Search = (props) => {
         value={props.query}
         onChange={setSearchHandler}
       />
+
       <button
-        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white"
         type="submit"
       >
         Search
