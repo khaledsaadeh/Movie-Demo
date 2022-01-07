@@ -1,6 +1,6 @@
-import reactDom from "react-dom";
-import MovieDetails from "./MovieDetails";
 import { Link } from "react-router-dom";
+import moment from "moment";
+
 const MovieList = (props) => {
   const setColor = (rating) => {
     if (rating >= 8) return "bg-green-400";
@@ -20,19 +20,27 @@ const MovieList = (props) => {
               alt="poster"
             ></img>
           </Link>
-          <div className="text-center">
+          {/*  */}
+          <div className="text-center p-2">
             <Link to={`movies/${movie.id}`}>
-              <h2 className="font-bold text-xl mb-2 m-4">{movie.title}</h2>
+              <h2 className="font-bold text-left text-lg mb-2 h-14 line-clamp-2">
+                {movie.title}
+              </h2>
             </Link>
-            <h3 className="m-4"> Release Date: {movie.release_date}</h3>
-            <span
-              className={`${setColor(
-                movie.vote_average
-              )} font-bold rounded-xs p-1`}
-            >
-              {movie.vote_average}
-            </span>
+            <div className="flex justify-between items-center">
+              <h3 className="text-left text-sm text-black text-opacity-60">
+                {moment(movie.release_date).format("MMM DD, YYYY")}
+              </h3>
+              <h3
+                className={`${setColor(
+                  movie.vote_average
+                )} rounded-lg font-bold rounded-xs p-1`}
+              >
+                {Number(movie.vote_average).toFixed(1)}
+              </h3>
+            </div>
           </div>
+          {/*  */}
         </div>
       ))}
     </div>
