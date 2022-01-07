@@ -1,58 +1,57 @@
-import React, { useEffect, useState } from "react";
-const POPULAR_API =
-  "https://api.themoviedb.org/3/movie/popular?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1";
-const TOPRATED_API =
-  "https://api.themoviedb.org/3/movie/top_rated?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1";
-const UPCOMING_API =
-  "https://api.themoviedb.org/3/movie/upcoming?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1";
+import React, { useState } from "react";
+import classNames from "classnames";
+
+const CATEGORIES_OPTIONS = [
+  {
+    label: "Popular",
+    value:
+      "https://api.themoviedb.org/3/movie/popular?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1",
+  },
+  {
+    label: "Upcoming",
+    value:
+      "https://api.themoviedb.org/3/movie/upcoming?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1",
+  },
+  {
+    label: "Top Rated",
+    value:
+      "https://api.themoviedb.org/3/movie/top_rated?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1",
+  },
+];
 
 const Categories = (props) => {
-  const [dropDown, setDropDown] = useState("hidden");
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleDropDownVisibility = () => setIsVisible((prevVal) => !prevVal);
 
-  const setDropDownHandler = () => {
-    if (dropDown == "hidden") setDropDown("");
-    else setDropDown("hidden");
-  };
-
-  const setAPI_POPULAR = () => {
-    props.setCategoryAPI(POPULAR_API);
-    setDropDownHandler()
-  };
-  const setAPI_UPCOMING = () => {
-    props.setCategoryAPI(UPCOMING_API);
-    setDropDownHandler()
-  };
-  const setAPI_TOPRATED = () => {
-    props.setCategoryAPI(TOPRATED_API);
-    setDropDownHandler()
+  const onSelectOption = (value) => () => {
+    props.setCategoryAPI(value);
+    toggleDropDownVisibility();
   };
 
   return (
     <div>
-      <button className="block text-white mt-4" onClick={setDropDownHandler}>
+      <button
+        className="block text-white mt-4"
+        onClick={toggleDropDownVisibility}
+      >
         Categories
       </button>
       <div
-        class={`bg-white rounded-lg mt-2 ${dropDown}  absolute  mt-2 w-48 rounded-md shadow-lg`}
+        className={classNames(
+          "bg-white absolute mt-2 w-48 rounded-md overflow-hidden shadow-lg",
+          {
+            hidden: !isVisible,
+          }
+        )}
       >
-        <button
-          className="block px-2 py-2 w-full hover:bg-gray-500"
-          onClick={setAPI_POPULAR}
-        >
-          Popular
-        </button>
-        <button
-          className="block px-2 py-2 w-full hover:bg-gray-500"
-          onClick={setAPI_UPCOMING}
-        >
-          Upcoming
-        </button>
-        <button
-          className="block px-2 py-2 w-full hover:bg-gray-500"
-          onClick={setAPI_TOPRATED}
-        >
-          Top Rated
-        </button>
+        {CATEGORIES_OPTIONS.map((option) => (
+          <button
+            className="block px-2 py-2 w-full hover:bg-gray-500"
+            onClick={onSelectOption(option.value)}
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
     </div>
   );
