@@ -1,38 +1,60 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import MovieList from "./components/MovieList";
+import MovieDetails from "./components/MovieDetails";
+import axios from "axios";
+import { data } from "autoprefixer";
+import NavBar from "./components/NavBar";
+import Search from "./components/Search";
+import { Route, Switch } from "react-router-dom";
+import Categories from "./components/Categories";
+
+const NOWPLAYING_API =
+  "https://api.themoviedb.org/3/movie/now_playing?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1";
+const SEARCH_API =
+  "https://api.themoviedb.org/3/search/movie?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1&include_adult=false&query=";
+
 function App() {
   const [movies, setMovies] = useState([]);
-  const [counter, setCounter] = useState(1);
+  const [search, setSearch] = useState("");
+  const [API, setAPI] = useState(NOWPLAYING_API);
 
   useEffect(() => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/now_playing?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1"
-    )
-      .then((data) => data.json())
-      .then((data) => {
-        setMovies(data.results);
-        console.log(data);
-      });
-  }, [counter]);
+    axios.get(API).then((res) => {
+      setMovies(res.data.results);
+    });
+  }, [API]);
 
-  console.log(5 == 5);
-  console.log("high" == "high");
-  console.log([5] == [5]);
+  const fetchSearch = (event) => {
+    event.preventDefault();
+    axios.get(SEARCH_API, { params: { query: search } }).then((res) => {
+      setMovies(res.data.results);
+    });
+    setSearch("");
+  };
 
   return (
-    <div className="App">
-      <button
-        onClick={() => {
-          setCounter((oldValue) => {
-            return oldValue + 1;
-          });
-        }}
-      >
-        click{" "}
-      </button>{" "}
-      <p>{counter}</p>
-    </div>
+    <Switch>
+      <div className="App">
+        <NavBar>
+          <Route path="/" exact>
+            <Search
+              onChangeQuery={setSearch}
+              query={search}
+              onSearch={fetchSearch}
+            />
+
+            <Categories setCategoryAPI={setAPI} />
+          </Route>
+        </NavBar>
+        <Route path="/" exact>
+          <MovieList movies={movies} />
+        </Route>
+        <Route path="/movies/:movieID">
+          <MovieDetails />
+        </Route>
+      </div>
+    </Switch>
   );
 }
 
